@@ -13,7 +13,9 @@ Checkout a copy of the [repository from BitBucket](https://bitbucket.org/geosens
 Start up a local server with:
 
     $ cd backend
-    $ python server.py
+    $ python server.py DATABASE_URL="" COOKIE=""
+
+`DATABASE_URL` must be a database connection URL like `mysql://USER:PASS@HOST/DB`. `COOKIE` must be a random hex string. If COOKIE changes, then all users signed into the server through their browser will be logged out.
 
 ## `abm-server.conf`
 

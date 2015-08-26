@@ -23,7 +23,7 @@ bind_ip = "0.0.0.0"
 settings = {
     "static_path": os.path.join(os.path.dirname(__file__), "www/static"),
     "template_path": os.path.join(os.path.dirname(__file__), "www/template"),
-    "cookie_secret": "61oETzKXQAGaYdkL5gEmGeJJFuYh7EQnp2XdTP1o/Vo=",
+    "cookie_secret": os.getenv('COOKIE', ''),
     "debug": True,
 }
 
