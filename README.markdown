@@ -26,7 +26,7 @@ Start up a local server with:
 
 Tests are available in the `backend/tests` directory. They are Shell scripts so will only work on Mac/Unix systems.
 
-## `abm-server.conf`
+## abm-server.conf
 
 This is a configuration file for Upstart on Ubuntu. Edit the file to point to the location of your production installation and then install the file in `/etc/init`. Then you can control the server with `initctl`:
 
