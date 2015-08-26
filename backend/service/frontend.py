@@ -94,7 +94,7 @@ class UsersHandler(BaseRequestHandler):
     def post(self):
         args = self.args()
         if not self.checkParameter(["email", "passwd", "name", "email", "address", "occupation", "year_hunting"], args):
-            return self._return({ "status": "error", "desc": "invaid parameters." }, 400)            
+            return self._return({ "status": "error", "desc": "invaid parameters." }, 400)
 
         uid = self._db.add_user(args["email"], args["passwd"], args["name"], args["address"], args["occupation"], args["year_hunting"])
         if not uid:
@@ -107,11 +107,11 @@ class UsersHandler(BaseRequestHandler):
     def put(self):
         args = self.args()
         if not self.checkParameter(["user_id", "email", "passwd", "name", "email", "address", "occupation", "year_hunting"], args):
-            return self._return({ "status": "error", "desc": "invaid parameters." }, 400)            
+            return self._return({ "status": "error", "desc": "invaid parameters." }, 400)
 
         user = self._db.get_user_id(args["user_id"])
         if not user:
-            return self._return({ "status": "error", "desc": "not found" }, 404)            
+            return self._return({ "status": "error", "desc": "not found" }, 404)
 
         self._db.update_user_id(args["user_id"], args["email"], args["passwd"], args["name"], args["email"], args["address"], args["occupation"], args["year_hunting"])
 
@@ -120,11 +120,11 @@ class UsersHandler(BaseRequestHandler):
     def delete(self):
         args = self.args()
         if not self.checkParameter(["user_id"], args):
-            return self._return({ "status": "error", "desc": "invaid parameters." }, 400)            
+            return self._return({ "status": "error", "desc": "invaid parameters." }, 400)
 
         user = self._db.get_user_id(args["user_id"])
         if not user:
-            return self._return({ "status": "error", "desc": "not found" }, 404)            
+            return self._return({ "status": "error", "desc": "not found" }, 404)
 
         self._db.delete_user(args["user_id"])
         return self._return({ "status": "ok", "user_id": args["user_id"], "desc": "deleted" })
@@ -156,7 +156,7 @@ class SightingsHandler(BaseRequestHandler):
     def post(self):
         args = self.args()
         if not self.checkParameter(["user_id", "animal_name", "no_of_adults", "no_of_calves", "unusual_observations", "lat", "lon", "visible_signs", "photos"], args):
-            return self._return({ "status": "error", "desc": "invaid parameters." }, 400)            
+            return self._return({ "status": "error", "desc": "invaid parameters." }, 400)
 
         sid = self._db.add_sighting(args["animal_name"], int(args["no_of_adults"]), int(args["no_of_calves"]), args["unusual_observations"], float(args["lat"]), float(args["lon"]), args["visible_signs"], args["user_id"])
         return self._return({ "status": "ok", "sighting_id": sid })
@@ -164,11 +164,11 @@ class SightingsHandler(BaseRequestHandler):
     def put(self):
         args = self.args()
         if not self.checkParameter(["user_id", "animal_name", "sighting_id", "no_of_adults", "no_of_calves", "unusual_observations", "lat", "lon", "visible_signs", "photos"], args):
-            return self._return({ "status": "error", "desc": "invaid parameters.", "args": args }, 400)            
+            return self._return({ "status": "error", "desc": "invaid parameters.", "args": args }, 400)
 
         sighting = self._db.get_sighting_id(args["sighting_id"])
         if not sighting:
-            return self._return({ "status": "error", "desc": "not found" }, 404)            
+            return self._return({ "status": "error", "desc": "not found" }, 404)
 
         self._db.update_sighting_id(args["sighting_id"], args["animal_name"], args["no_of_adults"], args["no_of_calves"], args["unusual_observations"], args["lat"], args["lon"], args["visible_signs"], args["user_id"])
 
@@ -177,11 +177,11 @@ class SightingsHandler(BaseRequestHandler):
     def delete(self):
         args = self.args()
         if not self.checkParameter(["sighting_id"], args):
-            return self._return({ "status": "error", "desc": "invaid parameters." }, 400)            
+            return self._return({ "status": "error", "desc": "invaid parameters." }, 400)
 
         sighting = self._db.get_sighting_id(args["sighting_id"])
         if not sighting:
-            return self._return({ "status": "error", "desc": "not found" }, 404)            
+            return self._return({ "status": "error", "desc": "not found" }, 404)
 
         self._db.delete_sighting(args["sighting_id"])
         return self._return({ "status": "ok", "sighting_id": args["sighting_id"], "desc": "deleted" })
@@ -225,4 +225,3 @@ class ImagesHandler(BaseRequestHandler):
 
         iid = self._db.add_image(path, args["sighting_id"], args["user_id"])
         return self._return({ "status": "ok", "image_id": iid })
-
