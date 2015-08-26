@@ -42,11 +42,11 @@ class User(Base):
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True)
-    email = Column(String(16), unique=True)
-    passwd = Column(String(16))
-    name = Column(String(16))
-    address = Column(String(16))
-    occupation = Column(String(16))
+    email = Column(String(255), unique=True)
+    passwd = Column(String(255))
+    name = Column(String(255))
+    address = Column(Text)
+    occupation = Column(String(255))
     year_hunting = Column(Integer)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.datetime.utcnow)
@@ -114,7 +114,7 @@ class Image(Base):
     __tablename__ = 'image'
 
     id = Column(Integer, primary_key=True)
-    path = Column(String(16))
+    path = Column(Text)
     sighting_id = Column(String(16))
     created_by = Column(String(16))
 
