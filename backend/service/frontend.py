@@ -116,7 +116,7 @@ class UsersHandler(BaseRequestHandler):
         if not user:
             return self._return({ "status": "error", "desc": "not found" }, 404)
 
-        self._db.update_user_id(args["user_id"], args["email"], args["passwd"], args["name"], args["email"], args["address"], args["occupation"], args["year_hunting"])
+        self._db.update_user_id(args["user_id"], args["email"], args["passwd"], args["name"], args["address"], args["occupation"], args["year_hunting"])
 
         return self._return({ "status": "ok", "desc": "updated" })
 

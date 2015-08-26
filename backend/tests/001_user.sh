@@ -1,35 +1,38 @@
 #!/bin/sh
+set -e
 
 HH="Content-Type: application/json"
-URL="http://127.0.0.1:8080/biomap/users"
+URL="http://127.0.0.1:8081/biomap/users"
 
-cat > /tmp/input.json << _EOF_
+tmpfile=$(mktemp -t test)
+
+echo "TEST: Get All Users (Should Fail with Invalid Parameters)"
+cat > $tmpfile << _EOF_
 {
 }
 _EOF_
-curl -s -H "$HH" -X GET --data @/tmp/input.json "$URL" | jq .
+echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
 
-
-
-cat > /tmp/input.json << _EOF_
+echo "TEST: Get All Users (Array)"
+cat > $tmpfile << _EOF_
 {
 	"email": "*"
 }
 _EOF_
-curl -s -H "$HH" -X GET --data @/tmp/input.json "$URL"  | jq .
+echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
 
-cat > /tmp/input.json << _EOF_
+echo "TEST: Get User by Email (Single)"
+cat > $tmpfile << _EOF_
 {
 	"email": "leepro@gmail.com"
 }
 _EOF_
-curl -s -H "$HH" -X GET --data @/tmp/input.json "$URL" | jq .
+echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
 
-
-
-cat > /tmp/input.json << _EOF_
+echo "TEST: Create User by JSON"
+cat > $tmpfile << _EOF_
 {
-	"email": "leepro@gmail.com",
+	"email": "$RANDOM@example.com",
 	"passwd": "secret",
 	"name": "DongWoo",
 	"address": "Canada",
@@ -38,16 +41,15 @@ cat > /tmp/input.json << _EOF_
 }
 _EOF_
 
-set USER_ID=$(curl -s -H "$HH" -X POST --data @/tmp/input.json "$URL" | jq ".user_id")
-echo "Created USER_ID = $USER_ID"
+output=$(curl -s -H "$HH" -X POST --data @$tmpfile "$URL")
+echo $output | tee $tmpfile
+USER_ID=$(jq .user_id $tmpfile)
 
-curl -s -H "$HH" http://127.0.0.1:8080/biomap/users?email=* | jq .
-
-
-cat > /tmp/input.json << _EOF_
+echo "TEST: Update User by JSON"
+cat > $tmpfile << _EOF_
 {
-	"user_id": "$USER_ID",
-	"email": "xxx@gmail.com",
+	"user_id": $USER_ID,
+	"email": "xxx$RANDOM@example.com",
 	"passwd": "secret",
 	"name": "DongWoo",
 	"address": "Canada",
@@ -55,19 +57,12 @@ cat > /tmp/input.json << _EOF_
 	"year_hunting": 99
 }
 _EOF_
-curl -s -H "$HH" -X PUT --data @/tmp/input.json "$URL" | jq .
+echo $(curl -s -H "$HH" -X PUT --data @$tmpfile "$URL")
 
-
-curl -s -H "$HH" http://127.0.0.1:8080/biomap/users?email=* | jq .
-
-
-cat > /tmp/input.json << _EOF_
+echo "TEST: Delete User by JSON"
+cat > $tmpfile << _EOF_
 {
-	"user_id": "$USER_ID"
+	"user_id": $USER_ID
 }
 _EOF_
-# curl -s -H "$HH" -X DELETE --data @/tmp/input.json "$URL" | jq .
-
-
-curl -s -H "$HH" http://127.0.0.1:8080/biomap/users?email=* | jq .
-
+echo $(curl -s -H "$HH" -X DELETE --data @$tmpfile "$URL")

@@ -5,7 +5,6 @@ HH="Content-Type: application/json"
 URL="http://127.0.0.1:8081/biomap/users"
 
 tmpfile=$(mktemp -t test)
-jq=./jq
 
 echo "TEST: Create User"
 cat > $tmpfile << _EOF_

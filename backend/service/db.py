@@ -3,6 +3,7 @@ import datetime
 import time
 import json
 import os
+import sys
 
 import sqlalchemy
 from sqlalchemy import create_engine
@@ -153,8 +154,10 @@ class BioMapUser:
         try:
             self._sess.add(new_user)
             self._sess.commit()
-            return new_user._id
+            return new_user.id
         except:
+            e = sys.exc_info()[0]
+            print("Error: %s" % e)
             return None
 
     def get_user(self, email):

@@ -31,7 +31,7 @@ Start up a local server with:
 
 ## Tests
 
-Tests are available in the `backend/tests` directory. They are Shell scripts so will only work on Mac/Unix systems.
+Tests are available in the `backend/tests` directory. They are Shell scripts so will only work on Mac/Unix systems. Be sure to install [jq](https://stedolan.github.io/jq/) for your OS.
 
 ## abm-server.conf
 
