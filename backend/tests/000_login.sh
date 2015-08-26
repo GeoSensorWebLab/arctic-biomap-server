@@ -1,10 +1,14 @@
 #!/bin/sh
+set -e
 
 HH="Content-Type: application/json"
-URL="http://127.0.0.1:8080/biomap/users"
+URL="http://127.0.0.1:8081/biomap/users"
 
+tmpfile=$(mktemp -t test)
+jq=./jq
 
-cat > /tmp/input.json << _EOF_
+echo "TEST: Create User"
+cat > $tmpfile << _EOF_
 {
 	"email": "leepro@gmail.com",
 	"passwd": "secret",
@@ -15,36 +19,36 @@ cat > /tmp/input.json << _EOF_
 }
 _EOF_
 
-USER_ID=$(curl -s -H "$HH" -X POST --data @/tmp/input.json "$URL" | jq ".user_id")
-echo "Created USER_ID = $USER_ID"
+echo $(curl -s -H "$HH" -X POST --data @$tmpfile "$URL")
 
 
-URL="http://127.0.0.1:8080/biomap/login"
+URL="http://127.0.0.1:8081/biomap/login"
 
-cat > /tmp/input.json << _EOF_
+echo "TEST: Login User, Bad Password"
+cat > $tmpfile << _EOF_
 {
 	"email": "leepro@gmail.com",
 	"passwd": "nosecret"
 }
 _EOF_
-curl -s -H "$HH" -X GET --data @/tmp/input.json "$URL" | jq .
+echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
 
 
-
-cat > /tmp/input.json << _EOF_
+echo "TEST: Login Unknown User"
+cat > $tmpfile << _EOF_
 {
 	"email": "ssss@gmail.com",
 	"passwd": "nosecret"
 }
 _EOF_
-curl -s -H "$HH" -X GET --data @/tmp/input.json "$URL" | jq .
+echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
 
 
-
-cat > /tmp/input.json << _EOF_
+echo "TEST: Login Known User"
+cat > $tmpfile << _EOF_
 {
 	"email": "leepro@gmail.com",
 	"passwd": "secret"
 }
 _EOF_
-curl -s -H "$HH" -X GET --data @/tmp/input.json "$URL" | jq .
+echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")

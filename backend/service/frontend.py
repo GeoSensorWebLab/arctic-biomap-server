@@ -97,6 +97,9 @@ class UsersHandler(BaseRequestHandler):
             return self._return({ "status": "error", "desc": "invalid parameters." }, 400)
 
         uid = self._db.add_user(args["email"], args["passwd"], args["name"], args["address"], args["occupation"], args["year_hunting"])
+        if uid == None:
+            return self._return({ "status": "error", "desc": "cannot create" }, 500)
+
         if not uid:
             user = self._db.get_user(args["email"])
             uid = user.id

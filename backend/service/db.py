@@ -148,14 +148,13 @@ class BioMapUser:
         self._sess = sess
 
     def add_user(self, email, password, name, address, occupation, year_hunting):
-        _id = int(time.time()*1000000)
         password = hashlib.sha256(password).hexdigest()
+        new_user = User(None, email, password, name, address, occupation, year_hunting)
         try:
-            self._sess.add(User(_id, email, password, name, address, occupation, year_hunting))
+            self._sess.add(new_user)
             self._sess.commit()
-            return _id
+            return new_user._id
         except:
-            self._sess.rollback()
             return None
 
     def get_user(self, email):
