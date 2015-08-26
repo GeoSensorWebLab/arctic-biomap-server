@@ -1,0 +1,22 @@
+loadJSONCallback(
+{
+	"Terrestial Mammal":[
+		"Polar Bear",
+		"Arctic Wolf",
+		"Carbou",
+		"Muskox",
+		"Grizzly Bear",
+		"Ermine",
+	],
+	"Aquatic Mammal":[
+		"Walrus",
+		"Runged Seals",
+		"Beluga"
+	],
+	"Birds":[
+		"Brant",
+		"Red Knot",
+		"Snow Bunting"
+	]
+}
+)
