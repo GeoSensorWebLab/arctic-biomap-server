@@ -2,6 +2,7 @@ import hashlib
 import datetime
 import time
 import json
+import os
 
 import sqlalchemy
 from sqlalchemy import create_engine
@@ -13,10 +14,9 @@ _sess = None
 session = None
 
 def _createDB():
-#    engine = create_engine('sqlite:///:memory:', echo=False)
-#     engine = create_engine('sqlite:///foo.db', echo=False)
-    # string with DB connection details
-    connection = 'mysql://USER:PASS@HOST/DATABASE'
+    # String with DB connection details.
+    # Set DATABASE_URL in the environment before starting the server.
+    connection = os.getenv('DATABASE_URL', 'mysql://USER:PASS@HOST/DATABASE')
     engine = create_engine(connection, convert_unicode=True)
 #    session = sessionmaker()
     session = sessionmaker(autocommit=False, autoflush=False, bind=engine)
