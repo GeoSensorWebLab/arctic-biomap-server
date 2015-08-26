@@ -14,6 +14,13 @@ Then install `tornado` and `sqlalchemy`.
 
     $ pip install tornado
     $ pip install sqlalchemy
+    $ pip install mysql-python
+
+Create a new database in MySQL:
+
+    $ mysql -uroot
+    mysql> create database abm;
+    mysql> ^D
 
 Start up a local server with:
 
