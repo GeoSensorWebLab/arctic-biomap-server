@@ -197,12 +197,12 @@ class BioMapSighting:
         self._sess = sess
 
     def add_sighting(self, an, na, nc, uo, lat, lon, vs, bywho):
-        _id = int(time.time()*1000000)
         vs = json.dumps(vs)
+        new_sighting = Sighting(None, an, na, nc, uo, lat, lon, vs, bywho)
         try:
-            self._sess.add(Sighting(_id, an, na, nc, uo, lat, lon, vs, bywho))
+            self._sess.add(new_sighting)
             self._sess.commit()
-            return _id
+            return new_sighting.id
         except:
             self._sess.rollback()
             return None
