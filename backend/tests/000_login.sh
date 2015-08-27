@@ -11,6 +11,8 @@ function t {
 	echo -e "\033[0;32mTEST: $@\033[0m"
 }
 
+# Begin Tests
+
 t "Create User"
 cat > $tmpfile << _EOF_
 {

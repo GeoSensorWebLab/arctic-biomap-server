@@ -29,6 +29,8 @@ output=$(curl -s -H "$HH" -X POST --data @$tmpfile "$BASE/users")
 echo $output > $tmpfile
 USER_ID=$(jq .user_id $tmpfile)
 
+# Begin Tests
+
 t "Get All Sightings (Should Fail with Invalid Parameters)"
 cat > $tmpfile << _EOF_
 {
