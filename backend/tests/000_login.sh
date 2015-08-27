@@ -6,7 +6,12 @@ URL="http://127.0.0.1:8081/biomap/users"
 
 tmpfile=$(mktemp -t test)
 
-echo "TEST: Create User"
+function t {
+	echo ""
+	echo -e "\033[0;32mTEST: $@\033[0m"
+}
+
+t "Create User"
 cat > $tmpfile << _EOF_
 {
 	"email": "leepro@gmail.com",
@@ -23,7 +28,7 @@ echo $(curl -s -H "$HH" -X POST --data @$tmpfile "$URL")
 
 URL="http://127.0.0.1:8081/biomap/login"
 
-echo "TEST: Login User, Bad Password"
+t "Login User, Bad Password"
 cat > $tmpfile << _EOF_
 {
 	"email": "leepro@gmail.com",
@@ -33,7 +38,7 @@ _EOF_
 echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
 
 
-echo "TEST: Login Unknown User"
+t "Login Unknown User"
 cat > $tmpfile << _EOF_
 {
 	"email": "ssss@gmail.com",
@@ -43,7 +48,7 @@ _EOF_
 echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
 
 
-echo "TEST: Login Known User"
+t "Login Known User"
 cat > $tmpfile << _EOF_
 {
 	"email": "leepro@gmail.com",

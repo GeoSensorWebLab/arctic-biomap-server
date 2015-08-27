@@ -6,14 +6,19 @@ URL="http://127.0.0.1:8081/biomap/users"
 
 tmpfile=$(mktemp -t test)
 
-echo "TEST: Get All Users (Should Fail with Invalid Parameters)"
+function t {
+	echo ""
+	echo -e "\033[0;32mTEST: $@\033[0m"
+}
+
+t "Get All Users (Should Fail with Invalid Parameters)"
 cat > $tmpfile << _EOF_
 {
 }
 _EOF_
 echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
 
-echo "TEST: Get All Users (Array)"
+t "Get All Users (Array)"
 cat > $tmpfile << _EOF_
 {
 	"email": "*"
@@ -21,7 +26,7 @@ cat > $tmpfile << _EOF_
 _EOF_
 echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
 
-echo "TEST: Get User by Email (Single)"
+t "Get User by Email (Single)"
 cat > $tmpfile << _EOF_
 {
 	"email": "leepro@gmail.com"
@@ -29,7 +34,7 @@ cat > $tmpfile << _EOF_
 _EOF_
 echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
 
-echo "TEST: Create User by JSON"
+t "Create User by JSON"
 cat > $tmpfile << _EOF_
 {
 	"email": "$RANDOM@example.com",
@@ -45,7 +50,7 @@ output=$(curl -s -H "$HH" -X POST --data @$tmpfile "$URL")
 echo $output | tee $tmpfile
 USER_ID=$(jq .user_id $tmpfile)
 
-echo "TEST: Update User by JSON"
+t "Update User by JSON"
 cat > $tmpfile << _EOF_
 {
 	"user_id": $USER_ID,
@@ -59,7 +64,7 @@ cat > $tmpfile << _EOF_
 _EOF_
 echo $(curl -s -H "$HH" -X PUT --data @$tmpfile "$URL")
 
-echo "TEST: Delete User by JSON"
+t "Delete User by JSON"
 cat > $tmpfile << _EOF_
 {
 	"user_id": $USER_ID
