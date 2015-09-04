@@ -42,9 +42,9 @@ class BaseRequestHandler(_BaseRequestHandler):
     def checkParameter(self, reqargs, args):
         return len(set(reqargs) - set(args.keys())) == 0
 
-    def _return(self, d, code=200):
+    def _return(self, data, code=200):
         self.set_status(code)
-        return self.write(json.dumps(d))
+        return self.write(data)
 
 
 class LoginHandler(BaseRequestHandler):
