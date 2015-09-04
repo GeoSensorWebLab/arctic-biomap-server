@@ -52,6 +52,14 @@ output=$(curl -s -H "$HH" -X POST --data @$tmpfile "$URL")
 echo $output | tee $tmpfile
 USER_ID=$(jq .user_id $tmpfile)
 
+t "Get User by ID (Single)"
+cat > $tmpfile << _EOF_
+{
+	"user_id": $USER_ID
+}
+_EOF_
+echo $(curl -s -H "$HH" -X GET --data @$tmpfile "$URL")
+
 t "Update User by JSON"
 cat > $tmpfile << _EOF_
 {

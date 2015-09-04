@@ -77,17 +77,23 @@ class UsersHandler(BaseRequestHandler):
 
     def get(self):
         args = self.args()
-        if not self.checkParameter(["email"], args):
-            return self._return({ "status": "error", "desc": "invalid parameters." }, 400)
 
-        if args["email"] == "*":
-            # list users
+        if 'email' in args and args["email"] == "*":
             users = [ u.todict() for u in db.list_all(db.User) ]
-        else:
+        elif 'email' in args:
             users = self._db.get_user(args["email"])
             if not users:
                 return self._return({ "status": "error", "desc": "not found" }, 404)
-            users = users.todict()
+            users = [ users.todict() ]
+        elif 'user_id' in args and args["user_id"] == "*":
+            users = [ u.todict() for u in db.list_all(db.User) ]
+        elif 'user_id' in args:
+            users = self._db.get_user_id(args["user_id"])
+            if not users:
+                return self._return({ "status": "error", "desc": "not found" }, 404)
+            users = [ users.todict() ]
+        else:
+            users = [ u.todict() for u in db.list_all(db.User) ]
 
         return self._return({ "status":"ok", "users":users })
 
