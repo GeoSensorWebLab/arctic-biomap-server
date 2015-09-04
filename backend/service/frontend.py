@@ -15,7 +15,6 @@ class BaseRequestHandler(_BaseRequestHandler):
     def _args(self, r):
         if isinstance(r, dict):
             for k, v in r.items():
-                print "[args: key]", k
                 if isinstance(v, list) and len(v) == 0:
                     r[k] = []
                 elif isinstance(v, list) and len(v) > 0:
@@ -41,8 +40,6 @@ class BaseRequestHandler(_BaseRequestHandler):
         return r
 
     def checkParameter(self, reqargs, args):
-        print reqargs
-        print args.keys()
         return len(set(reqargs) - set(args.keys())) == 0
 
     def _return(self, d, code=200):
