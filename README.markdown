@@ -46,4 +46,4 @@ The script will also automatically start the server when the host starts up.
 
 ## License
 
-Copyright GeoSensorWeb Lab 2015, All Rights Reserved.
+This project is MIT Licensed.
