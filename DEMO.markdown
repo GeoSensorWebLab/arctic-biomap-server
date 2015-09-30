@@ -1,6 +1,6 @@
 # Demo Service
 
-A demonstration instance of Arctic Bio Map Server is online for testing:
+A demonstration instance of Arctic Bio Map Server is online for testing as an API-only service (it does not include a web user interface).
 
 * [http://abm-demo.arcticconnect.org/biomap](http://abm-demo.arcticconnect.org/biomap)
 
